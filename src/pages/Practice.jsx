@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { Layout } from "../components/Layout";
 import { Button } from "../components/ui/Button";
-import { Check, X, ArrowRight } from "lucide-react";
+import { Check, X, ArrowRight, RotateCcw } from "lucide-react";
 import { cn } from "../lib/utils";
 
 export const Practice = () => {
@@ -11,28 +11,38 @@ export const Practice = () => {
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [result, setResult] = useState(null); // { isCorrect, correctAnswer }
+  const [result, setResult] = useState(null); 
   const [answeredCount, setAnsweredCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
+  // Load questions
+  const fetchQuestions = async () => {
+    setLoading(true);
+    try {
+      const projectId = sessionStorage.getItem("assess_projectId");
+      const res = await api.get(`/attempts/${projectId}/practice`);
+      setQuestions(res.data.questions);
+      // Reset local state
+      setCurrentIdx(0);
+      setSelected(null);
+      setResult(null);
+      setAnsweredCount(0);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load practice questions.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const projectId = sessionStorage.getItem("assess_projectId");
-        const res = await api.get(`/attempts/${projectId}/practice`);
-        setQuestions(res.data.questions);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchQuestions();
+    // eslint-disable-next-line
   }, []);
 
   const handleSubmitAnswer = async () => {
-    if (!selected || result) return; // Prevent double submit
+    if (!selected || result) return; 
     setSubmitting(true);
     try {
       const projectId = sessionStorage.getItem("assess_projectId");
@@ -58,6 +68,24 @@ export const Practice = () => {
     }
   };
 
+  // ✅ Handle Practice Again
+  const handlePracticeAgain = async () => {
+    if (!window.confirm("Are you sure you want to restart practice? Your current progress will be reset.")) return;
+    
+    setSubmitting(true);
+    try {
+      const projectId = sessionStorage.getItem("assess_projectId");
+      await api.post(`/attempts/${projectId}/practice-reset`);
+      // Fetch new questions
+      await fetchQuestions();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to reset practice.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleReady = async () => {
     setSubmitting(true);
     try {
@@ -71,7 +99,7 @@ export const Practice = () => {
     }
   };
 
-  if (loading) return <Layout><div className="text-center py-20">Loading practice...</div></Layout>;
+  if (loading) return <Layout><div className="text-center py-20 font-medium text-gray-500">Loading 20 practice questions...</div></Layout>;
   if (questions.length === 0) return <Layout><div className="text-center py-20">No questions available.</div></Layout>;
 
   const currentQ = questions[currentIdx];
@@ -141,20 +169,40 @@ export const Practice = () => {
               Check Answer
             </Button>
           ) : (
-            <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-4">
-              <p className={cn("font-medium", result.isCorrect ? "text-green-600" : "text-red-600")}>
-                {result.isCorrect ? "✅ Correct! Well done." : `❌ Incorrect. The correct answer is: ${result.correctAnswer}`}
+            <div className="w-full flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className={cn("font-medium text-sm md:text-base", result.isCorrect ? "text-green-600" : "text-red-600")}>
+                {result.isCorrect ? "✅ Correct!" : `❌ Incorrect. Answer: ${result.correctAnswer}`}
               </p>
               
-              {!isLast ? (
-                <Button onClick={handleNext} variant="secondary" className="w-full sm:w-auto">
-                  Next Question <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Button onClick={handleReady} disabled={!allPracticed} isLoading={submitting} className="w-full sm:w-auto">
-                  Go to Real Test
-                </Button>
-              )}
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                {/* ✅ Practice Again Button - Shows only on the last question */}
+                {isLast && (
+                  <Button 
+                    onClick={handlePracticeAgain} 
+                    variant="outline" 
+                    className="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Practice Again
+                  </Button>
+                )}
+
+                {/* Next or Take Real Test Button */}
+                {!isLast ? (
+                  <Button onClick={handleNext} variant="secondary" className="w-full sm:w-auto">
+                    Next Question <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={handleReady} 
+                    disabled={!allPracticed} 
+                    isLoading={submitting} 
+                    className="w-full sm:w-auto"
+                  >
+                    Take Real Test
+                  </Button>
+                )}
+              </div>
             </div>
           )}
         </div>
