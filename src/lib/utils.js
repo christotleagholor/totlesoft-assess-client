@@ -19,19 +19,22 @@ export function getSessionFromURL() {
   const projectId = params.get("projectId");
   const userId = params.get("userId");
 
+  // ✅ If a token is provided in the URL, this is a FRESH handoff from the main site.
+  // Wipe any old session data first to prevent stale data conflicts.
   if (token) {
-    // Store in sessionStorage so it persists if they refresh
+    sessionStorage.clear(); // <-- Clears all old assessment data
+    
     sessionStorage.setItem("assess_token", token);
     sessionStorage.setItem("assess_projectId", projectId);
     sessionStorage.setItem("assess_userId", userId);
     
-    // Clean URL
+    // Clean URL so it looks professional
     window.history.replaceState({}, document.title, "/sso");
     
     return { token, projectId, userId };
   }
 
-  // Fallback to session storage
+  // Fallback for page refreshes inside the assessment portal
   return {
     token: sessionStorage.getItem("assess_token"),
     projectId: sessionStorage.getItem("assess_projectId"),

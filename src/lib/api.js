@@ -1,10 +1,10 @@
 import axios from "axios";
 
 // Point this to your new Assessment Backend
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
+const API_URL = import.meta.env.VITE_API_URL || "https://totlesoft-assess-api.fly.dev/api";
 
 export const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },

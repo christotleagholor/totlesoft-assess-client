@@ -43,7 +43,7 @@ export const SSO = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Authentication Error</h2>
           <p className="text-gray-600 mb-6">{error}</p>
           <button 
-            onClick={() => window.location.href = import.meta.env.VITE_MAIN_SITE_URL || "http://localhost:3000"}
+            onClick={() => window.location.href = import.meta.env.VITE_MAIN_SITE_URL || "https://totlesoft.com"}
             className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-black transition"
           >
             Return to Totlesoft
