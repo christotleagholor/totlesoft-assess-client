@@ -28,7 +28,7 @@ export const Guidelines = () => {
     fetchProject();
   }, []);
 
-    const handleStart = async () => {
+     const handleStart = async () => {
     setLoading(true);
     try {
       const projectId = sessionStorage.getItem("assess_projectId");
@@ -36,8 +36,16 @@ export const Guidelines = () => {
       navigate("/assessment/practice");
     } catch (err) {
       console.error(err);
-      // Show the error message from the backend (e.g., "You must wait 168 hours...")
-      alert(err.response?.data?.message || "Failed to start assessment. Please try again.");
+      const msg = err.response?.data?.message;
+      
+      // ✅ Handle the specific "already passed" error gracefully
+      if (msg === 'You have already completed this assessment.') {
+        // Force them back to the main site dashboard (or the assessment dashboard)
+        sessionStorage.clear();
+        window.location.href = import.meta.env.VITE_MAIN_SITE_URL || "http://localhost:3000";
+      } else {
+        alert(msg || "Failed to start assessment. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

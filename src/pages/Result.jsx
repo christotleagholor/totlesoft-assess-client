@@ -47,7 +47,7 @@ export const Result = () => {
           <div className="p-8 bg-green-50">
             <CheckCircle2 className="w-20 h-20 text-green-500 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-brand-black mb-2">Details Sent Successfully!</h1>
-            <p className="text-gray-600">Your application has been forwarded to the shop owner.</p>
+            <p className="text-gray-600">Your application has been forwarded to the Client.</p>
           </div>
           <div className="p-8">
             <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 text-left">
@@ -55,7 +55,7 @@ export const Result = () => {
                 <strong>What happens next?</strong>
               </p>
               <ul className="list-disc pl-5 mt-2 text-sm text-gray-600 space-y-1">
-                <li>The shop owner will receive your profile and test score.</li>
+                <li>The client will receive your profile and test score.</li>
                 <li>Manual review typically takes <strong>24 to 72 hours</strong>.</li>
                 <li>You will be notified by email once added to the project.</li>
               </ul>
@@ -116,7 +116,7 @@ export const Result = () => {
           {passed ? (
             <div className="space-y-4">
               <p className="text-sm text-gray-600 mb-2">
-                Your details are ready to be sent to the shop owner for manual review. 
+                Your details are ready to be sent to the client for manual review. 
                 They will contact you within 24-72 hours.
               </p>
               <Button 
@@ -131,7 +131,7 @@ export const Result = () => {
           ) : (
             <div className="space-y-4">
               <p className="text-sm text-gray-600 mb-2">
-                You can review the guidelines and try again after 7 days.
+                You can review the guidelines and try again after the stimpulated days.
               </p>
               <Button onClick={() => navigate("/dashboard")} variant="outline" className="w-full">
                 Return to Dashboard
