@@ -28,7 +28,7 @@ export const Guidelines = () => {
     fetchProject();
   }, []);
 
-     const handleStart = async () => {
+       const handleStart = async () => {
     setLoading(true);
     try {
       const projectId = sessionStorage.getItem("assess_projectId");
@@ -38,9 +38,9 @@ export const Guidelines = () => {
       console.error(err);
       const msg = err.response?.data?.message;
       
-      // ✅ Handle the specific "already passed" error gracefully
-      if (msg === 'You have already completed this assessment.') {
-        // Force them back to the main site dashboard (or the assessment dashboard)
+      // ✅ Show the custom success/warning message
+      if (msg && msg.includes('already passed this assessment')) {
+        alert(msg); // Or use a nice modal/toast if you have one
         sessionStorage.clear();
         window.location.href = import.meta.env.VITE_MAIN_SITE_URL || "http://localhost:3000";
       } else {
