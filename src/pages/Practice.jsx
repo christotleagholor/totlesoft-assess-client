@@ -5,6 +5,7 @@ import { Layout } from "../components/Layout";
 import { Button } from "../components/ui/Button";
 import { Check, X, ArrowRight, RotateCcw } from "lucide-react";
 import { cn } from "../lib/utils";
+import TaskContentRenderer from "../components/TaskContentRenderer";
 
 export const Practice = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export const Practice = () => {
   const [answeredCount, setAnsweredCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  
 
   // Load questions
   const fetchQuestions = async () => {
@@ -128,10 +130,10 @@ export const Practice = () => {
           <h2 className="text-xl font-semibold text-brand-black mb-6">{currentQ.question}</h2>
           
           {currentQ.content && (
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 whitespace-pre-line text-gray-800">
-              {currentQ.content}
-            </div>
-          )}
+  <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 overflow-hidden break-words">
+    <TaskContentRenderer content={currentQ.content} />
+  </div>
+)}
 
           <div className="space-y-3">
             {currentQ.options.map((opt, i) => {

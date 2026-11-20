@@ -5,6 +5,7 @@ import { Layout } from "../components/Layout";
 import { Button } from "../components/ui/Button";
 import { formatTime } from "../lib/utils";
 import { Clock, AlertTriangle } from "lucide-react";
+import TaskContentRenderer from "../components/TaskContentRenderer";
 
 export const RealTest = () => {
   const navigate = useNavigate();
@@ -131,14 +132,14 @@ export const RealTest = () => {
         </div>
 
         {/* Question */}
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-brand-border mb-6 select-none">
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-brand-border mb-6">
           <h2 className="text-xl font-semibold text-brand-black mb-6">{currentQ.question}</h2>
           
           {currentQ.content && (
-            <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 whitespace-pre-line text-gray-800">
-              {currentQ.content}
-            </div>
-          )}
+  <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 overflow-hidden break-words select-text">
+    <TaskContentRenderer content={currentQ.content} />
+  </div>
+)}
 
           <div className="space-y-3">
             {currentQ.options.map((opt, i) => {

@@ -32,3 +32,70 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+
+/* ─── Content rendered by TaskContentRenderer ─── */
+.task-content {
+  color: #1f2937;              /* gray-800 */
+  line-height: 1.7;
+  font-size: 0.95rem;
+   user-select: text;
+  -webkit-user-select: text;
+}
+.task-content p {
+  margin: 0.6em 0;
+}
+.task-content p:first-child { margin-top: 0; }
+.task-content p:last-child  { margin-bottom: 0; }
+
+.task-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.task-content h1 { font-size: 1.35rem; font-weight: 700; margin: 1em 0 0.5em; }
+.task-content h2 { font-size: 1.2rem;  font-weight: 600; margin: 1em 0 0.5em; }
+.task-content h3 { font-size: 1.05rem; font-weight: 600; margin: 0.9em 0 0.4em; }
+.task-content h1:first-child, .task-content h2:first-child, .task-content h3:first-child {
+  margin-top: 0;
+}
+
+.task-content ul, .task-content ol {
+  margin: 0.6em 0;
+  padding-left: 1.4em;
+}
+.task-content ul { list-style: disc; }
+.task-content ol { list-style: decimal; }
+.task-content li { margin: 0.25em 0; }
+
+.task-content strong { font-weight: 600; }
+.task-content em { font-style: italic; }
+
+.task-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1em 0;
+}
+
+.task-content blockquote {
+  border-left: 3px solid #d1d5db;
+  padding-left: 0.8em;
+  color: #4b5563;
+  margin: 0.8em 0;
+}
+
+.task-content code {
+  background: #f3f4f6;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85em;
+}
+
+.task-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.8em 0;
+}
