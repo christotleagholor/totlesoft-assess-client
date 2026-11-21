@@ -7,8 +7,7 @@
 @layer base {
   body {
     @apply bg-brand-gray text-brand-black font-sans antialiased;
-    /* Prevent text selection to protect test integrity later */
-    -webkit-tap-highlight-color: transparent;
+   -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -36,7 +35,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* ─── Content rendered by TaskContentRenderer ─── */
 .task-content {
-  color: #1f2937;              /* gray-800 */
+  color: #1f2937;             
   line-height: 1.7;
   font-size: 0.95rem;
    user-select: text;
