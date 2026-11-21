@@ -131,7 +131,10 @@ export const Practice = () => {
           
           {currentQ.content && (
   <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-6 overflow-hidden break-words">
-    <TaskContentRenderer content={currentQ.content} />
+    <TaskContentRenderer
+      content={currentQ.content}
+      sourceUrl={currentQ.sourceUrl}
+    />
   </div>
 )}
 
